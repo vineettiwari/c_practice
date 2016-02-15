@@ -1,5 +1,10 @@
-/** adventureGame.c
-    Created by Vineet Tiwari on 2015-05-06.
+/**
+    adventureGame.c
+    Purpose:
+
+    @author   Vineet Tiwari
+    @version  1.0
+    @date     May 05th, 2015
 */
 
 #include <stdio.h>
@@ -217,16 +222,10 @@ int main()
     return 0;
 }
 
-void createRoom(**initialRoom)
-{
-
-
-}
-
 void status(Player *player1)
 {
   printf( "\nYou are in room: %d,%d\n"
-          "Your health:     %d\n"
+            "Your health:     %d\n"
           "Your exits are:\n",
           player1->inRoom->xCordinate, 
           player1->inRoom->yCordinate, 
@@ -252,7 +251,7 @@ void status(Player *player1)
   }
 
   printf("\n%s", "Enter direction to move\n"
-                "or 'exit' to quit the game: ");
+                "or 'quit' to end game: ");
 }
 
 
@@ -322,7 +321,7 @@ void readInput(Player *player1)
       movePlayer(player1, player1->inRoom->toBottom);
       break;
 
-    case 'e' :
+    case 'q' :
       printf("%s\n", "Good Bye!");
       isGameOver = 1;
       break;
@@ -331,10 +330,4 @@ void readInput(Player *player1)
       printf("%s\n", "Invalid input.");
   }
 }
-
-
-
-
-
-
 
