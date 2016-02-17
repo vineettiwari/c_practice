@@ -8,7 +8,8 @@
 void showInfo(char *firstName, char *lastName, int age)
 {
 	printf("\nReceipt\n");
-	printf("%-14s %-14s %6s\n%s\n", "First Name", "Last Name", "Age", "------------------------------------");
+	printf("%-14s %-14s %6s\n%s\n", "First Name", "Last Name", "Age",
+		"------------------------------------");
 	printf("%-14s %-14s %6d\n", firstName, lastName, age);
 }
 

@@ -1,13 +1,10 @@
-/**
-    doublyLinkedList.c
-    Purpose: 	Create a Doubly Linked List and give
-    					user the ability to add or delete list nodes.
-    					Also, be able to traverse the Linked List starting
-    					either it's head or it's tail.
-
-    @author 	Vineet Tiwari
-    @version 	1.0
-    @date			Feb 15th, 2016
+/*
+	============================================================================
+ 	Name        :	doublyLinkedList.c
+ 	Author      :	Vineet Tiwari
+ 	Version     :	1.0
+ 	Description	:	Understand how to create and manipulate doubly linked lists.
+ 	============================================================================
 */
 
 #include <stdio.h>
@@ -34,8 +31,8 @@ int main()
 	head = NULL;
 	int value;
 
-	printf("\n%s\n%s\n", "Populate the list with positive.",
-		"Then to exit, enter a nevetive number.");
+	fprintf(stdout, "\n%s\n%s\n", "Populate the list with positive integer.",
+		"Then to exit, enter a negative integer.");
 
 	do
 	{
@@ -58,7 +55,7 @@ Node *GetNewNode(int value)
 	Node *newNode = (Node *)malloc(sizeof(Node));
 
 	if(!newNode)
-		printf("%d not inserted. No memory available.\n", value);
+		fprintf(stderr, "Error: %d not inserted. No memory available.\n", value);
 
 	newNode->data = value;
 	newNode->prev = NULL;
@@ -138,8 +135,3 @@ void ReversePrint()
 	}
 	printf("NULL\n\n");
 }
-
-
-
-
-

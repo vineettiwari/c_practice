@@ -14,12 +14,15 @@
 #include <ctype.h>
 #include <string.h>
 
-typedef struct node
+// Linked list structure
+typedef struct node Node;
+struct node
 {
 	int value;
-	struct node *pNext;
-} Node;
+	Node *pNext;
+};
 
+// List title enumeration
 typedef enum
 {
 	firstList,
@@ -27,77 +30,86 @@ typedef enum
 	mergedList
 } listNum;
 
-void pushNode(Node **, int );
-Node *create(int);
-Node *merge(Node *, Node *);
-void printList(Node **, int );
+// Function forward declaration
+void Insert(Node **, int);
+Node *Create(int);
+Node *Merge(Node *, Node *);
+void Print(Node **, int);
 
 int main()
 {
-	Node *pHead1;
-	Node *pHead2;
+	Node *pHead1; // Pointers to the base
+	Node *pHead2; // of each Linked lists
 
-	pHead1 = create(1);
+	pHead1 = Create(1); // Create first list
 
-	pHead2 = create(2);
+	pHead2 = Create(2); // Create second list
 
 	putchar('\n');
 
-	listNum currentList = firstList;
-	printList(&pHead1, currentList);
+	listNum currentList = firstList; // Setup list title
+	Print(&pHead1, currentList); // Print first list
 
-	currentList = secondList;
-	printList(&pHead2, currentList);
+	currentList = secondList; // Setup list title
+	Print(&pHead2, currentList); // Print second list
 
-	pHead1 = merge(pHead1, pHead2);
-	currentList = mergedList;
-	printList(&pHead1, currentList);
+	pHead1 = Merge(pHead1, pHead2); // Merge both lists and point pHead1
+																	// to the base of the merged list
+	currentList = mergedList; // Setup list title
+	Print(&pHead1, currentList); // Print merged list
 
 	return EXIT_SUCCESS;
 }
 
-void pushNode(Node **pHead, int input)
+// Function to insert new node with input value
+void Insert(Node **pHead, int input)
 {
 	if(input >= 0)
 	{
-		Node *pPrevious, *pCurrent, *pNew;
-
+		Node *pPrevious, *pCurrent, *pNew;	// Pointers needed to reference
+																				// and menuplate the list
 		pPrevious = NULL;
 		pCurrent = *pHead;
 
-		pNew = malloc(sizeof(Node));
-		if(!pNew)
+		pNew = malloc(sizeof(Node));	// Allocate memory in Heap(free memory pool)
+		if(!pNew)											// for new node
+		{															// Print error message if memory in Heap
+																	// is unavalable and exit function
 			printf("%d not inserted. No memory available.\n", input);
-
-		pNew->value = input;
-		pNew->pNext = NULL;
-
-		while(pCurrent && input > pCurrent->value)
-		{
-			pPrevious = pCurrent;
-			pCurrent = pCurrent->pNext;
+			return;
 		}
 
-		if(!pPrevious)
-		{
+		pNew->value = input; // Store input in new node
+		pNew->pNext = NULL;	// Set the next pointer of new node to 0
+
+		while(pCurrent && input > pCurrent->value)
+		{																// As long as pointer to current is 
+			pPrevious = pCurrent;					// not NULL and the input is greate  
+			pCurrent = pCurrent->pNext;		// than the value in current node
+		}																// keep traversing the list
+
+		if(!pPrevious)           	// If the base node is NULL then point
+		{													// the head pointer to the new node
 			pNew->pNext = *pHead;
 			*pHead = pNew;
 		}
-		else
-		{
-			pPrevious->pNext = pNew;
+		else												// Otherwise, insert the new node right
+		{														// before the current node and assign the 
+			pPrevious->pNext = pNew;	// memory addresses to pointers accordingly
 			pNew->pNext = pCurrent;
 		}
 	}
 }
 
-Node *create(int listNum)
+// Function to create the sorted linked lists
+// Has the insert function nested within
+Node *Create(int listNum)
 {
-	Node *pHead = NULL;
+	Node *pHead = NULL;	// Not pointing at any list
 	int input = 0;
 
-	if(listNum == 1)
-	{
+	if(listNum == 1)	// Check the list title
+	{									// and print instructions accordingly
 		printf("\n%s\n",	"Input positive integers for the first list "
 											"(end with a negative integer):");
 	}
@@ -107,29 +119,32 @@ Node *create(int listNum)
 											"(end with a negative integer):");
 	}
 
-	do
+	do 	// Loop for populating the linked lists
 	{
 		printf("? ");
 
 		scanf("%d", &input);
 		while(getchar() != '\n');
 
-		pushNode(&pHead, input);
-	} while(input >= 0);
-
+		Insert(&pHead, input);
+	} while(input >= 0); 	// Populate until the input
+												// is a neditive number
 	return pHead;
 }
 
-Node *merge(Node *pHead1, Node *pHead2)
+// Function for merging bothe linked lists
+Node *Merge(Node *pHead1, Node *pHead2)
 {
 	Node *pHead;
 
-	if(!pHead1)
-		return pHead2;
+	if(!pHead1)				// If first list is empty then return
+		return pHead2;	// second list
 
-	if(!pHead2)
-		return pHead1;
+	if(!pHead2)				// If second list is empty then return
+		return pHead1;	// first list
 
+	// Compare the nodes in both linked lists and swape the nodes
+	// if needed to make sure the merged linked list is ordered
   if(pHead1->value < pHead2->value)
   {
     pHead = pHead1;
@@ -155,14 +170,17 @@ Node *merge(Node *pHead1, Node *pHead2)
   if(!pHead1->pNext)
   	pHead1->pNext = pHead2;
 
-  return pHead;
-}
+  return pHead; // Return the pointer to the base node to 
+}								// the merged list
 
-void printList(Node **pHead, int listNum)
+// Function to print all the nodes in the list
+// starting from the base node
+void Print(Node **pHead, int listNum)
 {
-	Node *pCurrent = *pHead;
-	char list[16];
+	Node *pCurrent = *pHead; 	// Assign the address for base node of
+	char list[16];						// the linked list to current pointer
 
+	// Copy the linked list's title appropriately
 	if(listNum == 0)
 	{
 		strcpy(list, "first");
@@ -184,7 +202,7 @@ void printList(Node **pHead, int listNum)
   { 
   	printf("Contents of %s list:\n", list);
 
-    while (pCurrent)
+    while (pCurrent)	// Print the linked list nodes in order
     { 
       printf("%d --> ", pCurrent->value);
       pCurrent = pCurrent->pNext;  

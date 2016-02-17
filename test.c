@@ -1,20 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int add(int a, int b)
+int total;
+
+int Square(int x)
 {
-  return a + b;
+	return (x * x);
+}
+
+int SquareOfSum(int a, int b)
+{
+  return Square(a + b);
 }
 
 int main()
 {
-  int c;
-  int (*pAdd)(int, int);
-  pAdd = add;
+  int (*pSquareOfSum)(int, int);
+  pSquareOfSum = SquareOfSum;
 
-  c = pAdd(2, 3);
+  total = pSquareOfSum(2, 3);
 
-  printf("The valuse stored in i: %d\n", c);
+  printf("\n(2 + 5)^2 = ");
+  printf("%d\n", total);
 
+  printf("\n");
   return EXIT_SUCCESS;
 }

@@ -1,13 +1,12 @@
 // queue.c
-#define _CRT_SECURE_NO_WARNINGS 
 #include <stdio.h>
 #include <stdlib.h>
 
 // self-referential structure
 struct queueNode
 {   
-   char data;
-   struct queueNode *pNext;  // pointer to next node
+  char data;
+  struct queueNode *pNext;  // pointer to next node
 };
 
 typedef struct queueNode QueueNode;
@@ -19,141 +18,137 @@ char dequeue( QueueNode **pHead, QueueNode **pTail );
 void enqueue( QueueNode **pHead, QueueNode **pTail, char value );
 void displayMenu( void );
 
-
 int main(void)
 { 
-   QueueNode *pHead = NULL;
-   QueueNode *pTail = NULL;
-   int choice;
-   char value;
+  QueueNode *pHead = NULL;
+  QueueNode *pTail = NULL;
+  int choice;
+  char value;
 
-   displayMenu();
-   printf( "? " );
-   scanf( "%d", &choice );
-   while (getchar() != '\n');
+  displayMenu();
+  printf( "? " );
+  scanf( "%d", &choice );
+  while(getchar() != '\n');
  
-   while ( choice != 3 )
-   { 
-      switch( choice )
-      { 
-          case 1:
+  while( choice != 3 )
+  { 
+    switch( choice )
+    { 
+      case 1:
     
-            printf( "Enter a character: " );
-            scanf( "\n%c", &value );
-			while (getchar() != '\n');
-            enqueue( &pHead, &pTail, value );
-            printQueue( pHead );
-            break;
+        printf( "Enter a character: " );
+        scanf( "\n%c", &value );
+        while(getchar() != '\n');
+        enqueue( &pHead, &pTail, value );
+        printQueue( pHead );
+        break;
 
-          case 2:
+      case 2:
 
-            if ( !isEmpty( pHead ) )
-            { 
-               value = dequeue( &pHead, &pTail );
-               printf( "%c has been dequeued.\n", value );
-            }
+        if ( !isEmpty( pHead ) )
+        { 
+          value = dequeue( &pHead, &pTail );
+          printf( "%c has been dequeued.\n", value );
+        }
 
-            printQueue( pHead );
-            break;
+        printQueue( pHead );
+        break;
 
-         default:
+        default:
 
-            printf( "Invalid Choice.\n\n" );
-            displayMenu();
-            break;
-      }
+          printf( "Invalid Choice.\n\n" );
+          displayMenu();
+    }
 
-      choice = 0;
-      printf( "? " );
-      scanf( "%d", &choice );
-	  while (getchar() != '\n');
-   }
+    choice = 0;
+    printf( "? " );
+    scanf( "%d", &choice );
+    while(getchar() != '\n');
+  }
 
-   return 0;
+  return 0;
 }
-
 
 void displayMenu( void )
 { 
-   printf ( "Enter your Choice:\n"
-           "   1) add an item to the queue\n"
-           "   2) remove an item from the queue\n"
-           "   3) end program\n" );
+  printf( "Enter your Choice:\n"
+          "   1) add an item to the queue\n"
+          "   2) remove an item from the queue\n"
+          "   3) end program\n" );
 }
 
 // insert a node at queue tail
-void enqueue( QueueNode **pHead, QueueNode **pTail, 
-              char value )
+void enqueue( QueueNode **pHead, QueueNode **pTail, char value )
 { 
-   QueueNode *pNew;
+  QueueNode *pNew;
 
-   pNew = (QueueNode*) malloc( sizeof( QueueNode ) );
+  pNew = (QueueNode*) malloc( sizeof( QueueNode ) );
 
-   if ( pNew != NULL ) 
-   {
-      pNew->data = value;
-      pNew->pNext = NULL;
-   
-      if ( isEmpty( *pHead ) )  // queue empty - insert at head
-      {
-         *pHead = pNew;
-      }
-      else                      // queue not empty - insert at tail
-      {
-         ( *pTail )->pNext = pNew;
-      }
+  if ( pNew != NULL )
+  {
+    pNew->data = value;
+    pNew->pNext = NULL;
 
-      *pTail = pNew;
-   }
-   else
-   {
+    if( isEmpty( *pHead ) )   // queue empty - insert at head
+    {
+      *pHead = pNew;
+    }
+    else                      // queue not empty - insert at tail
+    {
+      ( *pTail )->pNext = pNew;
+    }
+
+    *pTail = pNew;
+  }
+  else
+  {
       printf( "%c not enqueued. No memory available.\n", value );
-   }
+  }
 } 
 
 // remove node from queue head
 char dequeue( QueueNode **pHead, QueueNode **pTail )
 { 
-   char value;
-   QueueNode *pTemp;
+  char value;
+  QueueNode *pTemp;
 
-   value = ( *pHead )->data;
-   pTemp = *pHead;
-   *pHead = ( *pHead )->pNext;
+  value = ( *pHead )->data;
+  pTemp = *pHead;
+  *pHead = ( *pHead )->pNext;
 
-   if ( *pHead == NULL ) // queue is empty
-   {
-      *pTail = NULL;
-   }
+  if( *pHead == NULL )  // queue is empty
+  {
+    *pTail = NULL;
+  }
 
-   free( pTemp );        // release this memory and set it free!
+  free( pTemp );        // release this memory and set it free!
 
-   return value;
+  return value;
 }
 
 
 int isEmpty( QueueNode *pHead )
 { 
-   return pHead == NULL;
+  return pHead == NULL;
 }
 
 // print the queue 
 void printQueue( QueueNode *pCurrent )
 { 
-   if ( pCurrent == NULL )
-   {
-      printf( "Queue is empty.\n\n" );
-   }
-   else
-   { 
-      printf( "The queue is:\n" );
+  if( pCurrent == NULL )
+  {
+    printf( "Queue is empty.\n\n" );
+  }
+  else
+  { 
+    printf( "The queue is:\n" );
 
-      while ( pCurrent != NULL )
-      { 
-         printf( "%c --> ", pCurrent->data );
-         pCurrent = pCurrent->pNext;
-      }
+    while( pCurrent != NULL )
+    { 
+      printf( "%c --> ", pCurrent->data );
+      pCurrent = pCurrent->pNext;
+    }
 
-      printf( "NULL\n\n" );
-   }
+    printf( "NULL\n\n" );
+  }
 }

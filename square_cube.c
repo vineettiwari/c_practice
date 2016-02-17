@@ -110,7 +110,7 @@ Number runCalculationOn(Number *number)    /* Function for calculating */
 
 	number->cubed = pow(number->value, 3);
 	number->cubedSum += number->cubed;
-	
+
 	return *number;
 }
 

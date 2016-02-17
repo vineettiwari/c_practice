@@ -27,7 +27,7 @@ char *pop(StackNode **pHead)
 {
 	if(!*pHead)
 		printf("%s\n", "Stack is empty.");
-		
+
 	char *popValue = malloc(sizeof(char) * STR_BUFF);
 	StackNode *pTemp = *pHead;
 	*pHead = (*pHead)->pNext;
