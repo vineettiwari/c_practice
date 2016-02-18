@@ -55,8 +55,7 @@ void insertNode( TreeNode **pTree, int value )
       if ( *pTree != NULL ) // malloc succeeded
       { 
          ( *pTree )->data = value;
-         ( *pTree )->pLeft = NULL;
-         ( *pTree )->pRight = NULL;
+         ( *pTree )->pLeft = ( *pTree )->pRight = NULL;
       }
       else
       {

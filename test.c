@@ -1,3 +1,6 @@
+// Purpose: To practice and test code.
+// Current: To understand nested functions and function pointers.
+
 #include <stdio.h>
 #include <stdlib.h>
 
