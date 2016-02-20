@@ -1,4 +1,4 @@
-// midtermQ2.c
+// bytePacker.c
 
 // Student Name: Vineet Tiwari
 
@@ -56,15 +56,14 @@ ALL EXISTING CODE MUST BE USED
 #define MAX_BITS 32
 
 // function prototypes
-void displayBits(unsigned value, unsigned numBits);
-unsigned packCharacters(char [MAX_INDEX]);
+void displayBits(unsigned, unsigned);
+unsigned packCharacters(char[MAX_INDEX]);
 
-int main( void )
+int main()
 {
-	unsigned temp;				// used to display the bits in a char
-	unsigned packedBits;	// to contain result of packing bits
-	char input[4];        // Array to contain the 4 input chars
-
+	unsigned temp;					// used to display the bits in a char
+	unsigned packedBits;		// to contain result of packing bits
+	char input[MAX_INDEX];	// Array to contain the 4 input chars
 	// complete main function code
 	for(int i = 0; i < MAX_INDEX; i++)
 	{
@@ -72,22 +71,21 @@ int main( void )
 		input[i] = getchar();
 		while(getchar() != '\n');
 		temp = input[i];
+		printf("\n");
 		displayBits(temp, MAX_BITS);
 	}
-
 	packedBits = packCharacters(input);
 	printf("\n");
 	displayBits(packedBits, MAX_BITS);
 
 	printf("\n");
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 // display bits of an unsigned integral value
 void displayBits(unsigned value, unsigned numBits)
 { 
-	unsigned count; 
-	unsigned displayMask = 1 << (numBits - 1);
+	unsigned count, displayMask = 1 << (numBits - 1);
 
 	printf("%10u = ", value);
 
@@ -96,11 +94,12 @@ void displayBits(unsigned value, unsigned numBits)
 		putchar(value & displayMask ? '1' : '0');
 		displayMask >>= 1;
 
-		if (count % 8 == 0) 
+		if(count % (MAX_INDEX * 2) == 0) 
 		{
 			putchar(' ');
 		}
 	} 
+
 	putchar('\n');
 } 
 
@@ -110,13 +109,13 @@ unsigned packCharacters(char input[MAX_INDEX])
 	// Unsigned int to store result of the packed bits 
 	unsigned packedBits = 0;
 	int i, j;
-
 	// Bitwise operations to pack the bits
 	for(i = 0, j = MAX_INDEX - 1; i < MAX_INDEX; i++, j--)
 	{
-		packedBits |= (input[i] << (8*j));
+		packedBits |= (input[i] << (MAX_INDEX * j * 2));
 	}
 
+	printf("\n%18s\n", "Result:");
 	return packedBits;
 }
 

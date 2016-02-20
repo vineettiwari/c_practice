@@ -1,4 +1,4 @@
-// midtermQ1.c
+// linkedListSet.c
 
 // Student Name: Vineet Tiwari
 
@@ -266,7 +266,7 @@ int deleteDuplicates(struct listNode* head)
     // Compare current node with pNext node 
     if (current->data == current->pNext->data) 
     {              
-      printf("\nDup: %c\n", current->pNext->data);
+      printf("\nDuplicate: %c\n", current->pNext->data);
 
       next_node = current->pNext->pNext;
       free(current->pNext);
@@ -279,7 +279,6 @@ int deleteDuplicates(struct listNode* head)
       current = current->pNext; 
     }
   }
-
   return count;
 }
 
