@@ -24,6 +24,9 @@ struct BstNode *GetNewNode(int);
 void Insert(struct BstNode **, int);
 bool Search(struct BstNode *, int);
 void Print(struct BstNode *);
+int FindMin(struct BstNode *);
+int FindMax(struct BstNode *);
+int FindHeight(struct BstNode *);
 
 int main()
 {
@@ -44,16 +47,24 @@ int main()
 		printf("\n%s ", "Enter an integer:");
 		scanf("%d", &input);
 		while(getchar() != '\n');
-
-		if(Search(root, input) == true)
-			printf("\n%s\n", "Found :)");
-		else
-			printf("\n%s\n", "Not Found :(");
-
+		if(input >= 0)
+		{
+			if(Search(root, input) == true)
+				printf("\n%s\n", "Found :)");
+			else
+				printf("\n%s\n", "Not Found :(");
+		}
 	} while(input >= 0);
 
 	printf("\nTree Content:\n\n");
 	Print(root);
+
+	printf("\n\nMinimum: %d", FindMin(root));
+	printf("\nMaximum: %d", FindMax(root));
+
+	// int height  = FindHeight(root);
+
+	printf("\n\nHeight: %d", FindHeight(root));
 
 	printf("\n\n");
 	return EXIT_SUCCESS;
@@ -114,3 +125,47 @@ void Print(struct BstNode *root)
 		Print(root->right);
 	}
 }
+
+int FindMin(struct BstNode *root)
+{
+	if(!root)
+	{
+		fprintf(stderr, "Error: Tree is empty\n");
+		exit(EXIT_FAILURE);
+	}
+
+	struct BstNode *current = root;
+
+	while(current->left)
+	{
+		current = current->left;
+	}
+
+	return current->data;
+}
+
+int FindMax(struct BstNode *root)
+{
+	if(!root)
+	{
+		fprintf(stderr, "Error: Tree is empty\n");
+		exit(EXIT_FAILURE);
+	}
+
+	struct BstNode *current = root;
+	
+	while(current->right)
+	{
+		current = current->right;
+	}
+
+	return current->data;
+}
+
+// int FindHeight(struct BstNode *root)
+// {
+// 	if(!root)
+// 		return -1;
+// 	return 
+// 	return FindMax(FindHeight(root->left), FindHeight(root->right)) + 1;
+// }
