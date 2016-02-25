@@ -271,7 +271,6 @@ int deleteDuplicates(struct listNode* head)
       next_node = current->pNext->pNext;
       free(current->pNext);
       current->pNext = next_node;
-      
       count++;  
     }
     else // Advance if no deletion

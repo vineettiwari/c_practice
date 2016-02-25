@@ -1,31 +1,14 @@
-// Purpose: To practice and test code.
-// Current: To understand nested functions and function pointers.
+/*
+ * Purpose: To practice and test code.
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
-
-int total;
-
-int Square(int x)
-{
-	return (x * x);
-}
-
-int SquareOfSum(int a, int b)
-{
-  return Square(a + b);
-}
+#include <time.h>
 
 int main()
 {
-  int (*pSquareOfSum)(int, int);
-  pSquareOfSum = SquareOfSum;
-
-  total = pSquareOfSum(2, 3);
-
-  printf("\n(2 + 5)^2 = ");
-  printf("%d\n", total);
-
-  printf("\n");
-  return EXIT_SUCCESS;
+	time_t biggest = 0x7FFFFFFF;
+	printf("\nbiggest = %s \n", asctime(gmtime(&biggest)));
+	return EXIT_SUCCESS;
 }
