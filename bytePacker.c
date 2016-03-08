@@ -86,20 +86,16 @@ int main()
 void displayBits(unsigned value, unsigned numBits)
 { 
 	unsigned count, displayMask = 1 << (numBits - 1);
-
 	printf("%10u = ", value);
-
 	for (count = 1; count <= numBits; count++)
 	{ 
 		putchar(value & displayMask ? '1' : '0');
 		displayMask >>= 1;
-
 		if(count % (MAX_INDEX * 2) == 0) 
 		{
 			putchar(' ');
 		}
 	} 
-
 	putchar('\n');
 } 
 
@@ -114,7 +110,6 @@ unsigned packCharacters(char input[MAX_INDEX])
 	{
 		packedBits |= (input[i] << (MAX_INDEX * j * 2));
 	}
-
 	printf("\n%18s\n", "Result:");
 	return packedBits;
 }
