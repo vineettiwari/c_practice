@@ -15,20 +15,8 @@
 struct account {
 	int	account_number;
 	char	first_name[BUFF_SIZE], last_name[BUFF_SIZE];
-	float	account_balance, last_payment_amount;
+	double	account_balance, last_payment_amount;
 };
-
-float converter(char *str_value)
-{
-	int  i, len, result = 0;
-	len = strlen(str_value);
-
-	for (i = 0; i < len; i++) {
-		result = result * 10 + ( str_value[i] - '0' );
-	}
-	
-	return result;
-}
 
 void trim_comma(char *str_value)
 {
@@ -58,16 +46,15 @@ bool parse_line(char *line, struct account *customer_account)
 	trim_comma(temp_accbal);
 	trim_comma(temp_lpay);
 	
-	customer_account->account_number = (int)converter(temp_accnum);
-	customer_account->account_balance = converter(temp_accbal);
-	customer_account->last_payment_amount = converter(temp_lpay);
+	//strcpy(customer_account->first_name, temp_fname);
+	//strcpy(customer_account->last_name, temp_lname);
+	success += sscanf(temp_fname, "%s", customer_account->first_name);
+	success += sscanf(temp_lname, "%s", customer_account->last_name);
+	success += sscanf(temp_accnum, "%d", &(customer_account->account_number));
+	success += sscanf(temp_accbal, "%lf", &(customer_account->account_balance));
+	success += sscanf(temp_lpay, "%lf", &(customer_account->last_payment_amount));
 	
-	printf("%d %s %s %f %f\n",
-	customer_account->account_number, temp_fname, temp_lname,
-	customer_account->account_balance,
-	customer_account->last_payment_amount);
-	
-	if (success == 5)
+	if (success == 10)
 		didRead = true;
 		
 	return didRead;
@@ -77,6 +64,7 @@ int main()
 {
 	FILE *ftext_ptr, *fbinary_ptr;
 	char line[LINE_SIZE];
+	size_t counter = 0;
 	struct account customer_account;
 	
 	/* read in text mode */
@@ -94,14 +82,43 @@ int main()
 			"create/open file - account.dat\n");
 		exit(EXIT_FAILURE);
 	}
-
-	while (fgets(line, sizeof(line), ftext_ptr)) {  /* TODO */
-		parse_line(line, &customer_account);
+	
+	putchar('\n');
+	while (fgets(line, sizeof(line), ftext_ptr)) {
+		if (parse_line(line, &customer_account) == 1) {
+			fwrite(&customer_account,
+				sizeof(struct account), 1, fbinary_ptr);
+			counter++;
+		}
 	}
 
 	if (fclose(ftext_ptr) != 0)
 		fprintf(stderr, "\nError: Unable to "
 			"close file - account.csv\n");
+	
+	if (fclose(fbinary_ptr) != 0)
+		fprintf(stderr, "\nError: Unable to "
+			"close file - account.dat\n");
+	
+	fbinary_ptr = fopen("account.dat", "rb");
+	if (!fbinary_ptr) {
+		fprintf(stderr, "\nError: Unable to "
+			"open file - account.dat\n");
+		exit(EXIT_FAILURE);
+	}		
+	
+	putchar('\n');
+	for ( int i = 0; i < counter; i++) {
+		fread(&customer_account,
+			sizeof(struct account), 1, fbinary_ptr);
+			
+		printf("%d %s %s %.2lf %.2lf\n",
+				customer_account.account_number,
+				customer_account.first_name,
+				customer_account.last_name,
+				customer_account.account_balance,
+				customer_account.last_payment_amount);
+	}
 	
 	if (fclose(fbinary_ptr) != 0)
 		fprintf(stderr, "\nError: Unable to "
